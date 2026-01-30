@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BakeFlow - Choose Your Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .platforms {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .platforms {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .platform-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .platform-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+
+        .platform-card.shop {
+            border-top: 4px solid #ec4899;
+        }
+
+        .platform-card.automation {
+            border-top: 4px solid #22c55e;
+        }
+
+        .icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .platform-card h2 {
+            font-size: 28px;
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+
+        .platform-card p {
+            color: #6b7280;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .shop .cta-button {
+            background: #ec4899;
+            color: white;
+        }
+
+        .shop .cta-button:hover {
+            background: #db2777;
+            transform: scale(1.05);
+        }
+
+        .automation .cta-button {
+            background: #22c55e;
+            color: white;
+        }
+
+        .automation .cta-button:hover {
+            background: #16a34a;
+            transform: scale(1.05);
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            margin-top: 40px;
+        }
+
+        .footer code {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 6px;
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        .status {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #22c55e;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍰 BakeFlow</h1>
+            <p>Complete Order & Management Platform</p>
+        </div>
+
+        <div class="platforms">
+            <a href="/" class="platform-card shop" style="display: block; text-decoration: none; color: inherit;">
+                <div class="icon">🛍️</div>
+                <h2>Customer Shop</h2>
+                <p>Browse products, place orders, and track your bakes in real-time</p>
+                <div class="cta-button" style="cursor: pointer;">Open Shop →</div>
+            </a>
+
+            <a href="/automation.html" class="platform-card automation" style="display: block; text-decoration: none; color: inherit;">
+                <div class="icon">📱</div>
+                <h2>Automation Tool</h2>
+                <p>Manage orders, claim, message customers, and track fulfillment</p>
+                <div class="cta-button" style="cursor: pointer;">Open Tool →</div>
+            </a>
+        </div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            <span>Live Sync Enabled - Updates in Real-time</span>
+        </div>
+
+        <div class="footer">
+            <p>📍 Direct Links:</p>
+            <code>Shop: http://localhost:3001</code><br>
+            <code>Automation: http://localhost:3001/automation.html</code><br>
+            <code>Start: http://localhost:3001/start.html</code>
+            <p style="margin-top: 20px; font-size: 12px;">Backend API: http://localhost:5001</p>
+        </div>
+    </div>
+</body>
+</html>

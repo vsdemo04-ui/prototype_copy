@@ -1,0 +1,32 @@
+{
+  "name": "bakeflow-integrated-shop-crm-prototype",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+
+  "scripts": {
+    "dev": "node ./scripts/dev.mjs",
+    "server": "node server.js",
+    "dev-webapp": "cd webapp && npm run dev",
+    "dev-automation": "cd automation-app && npm run dev",
+    "dev-all": "concurrently \"npm run server\" \"npm run dev-webapp\" \"npm run dev-automation\"",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.1",
+    "lucide-react": "^0.563.0",
+    "mongodb": "^6.21.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^8.2.2",
+    "typescript": "~5.8.2",
+    "vite": "^6.4.1"
+  }
+}

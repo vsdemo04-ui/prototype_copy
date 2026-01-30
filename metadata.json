@@ -1,0 +1,8 @@
+
+{
+  "name": "BakeFlow: Integrated Shop & CRM Prototype",
+  "description": "A dual-purpose application featuring a high-end customer storefront and a professional CRM dashboard for shop owners to manage orders and communicate via simulated WhatsApp notifications.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

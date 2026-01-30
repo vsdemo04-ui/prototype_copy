@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BakeFlow Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .stat-box .number {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        .stat-box .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 5px solid #667eea;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .item-title {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .item-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .status-confirmed {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-completed {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .item-detail {
+            font-size: 0.9em;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .item-detail strong {
+            color: #333;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            margin: 10px 0;
+            transition: transform 0.2s;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .badge-online {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧁 BakeFlow Dashboard</h1>
+            <p>Real-time monitoring of orders, users, and messages</p>
+        </div>
+
+        <div class="grid">
+            <!-- Orders Section -->
+            <div class="card">
+                <h2>📦 Orders</h2>
+                <button class="refresh-btn" onclick="loadOrders()">🔄 Refresh Orders</button>
+                <div id="orders-container" class="loading">Loading orders...</div>
+            </div>
+
+            <!-- Users Section -->
+            <div class="card">
+                <h2>👥 Users</h2>
+                <button class="refresh-btn" onclick="loadUsers()">🔄 Refresh Users</button>
+                <div id="users-container" class="loading">Loading users...</div>
+            </div>
+
+            <!-- Chat Messages Section -->
+            <div class="card" style="grid-column: 1 / -1;">
+                <h2>💬 Recent Messages</h2>
+                <button class="refresh-btn" onclick="loadChats()">🔄 Refresh Messages</button>
+                <div id="chats-container" class="loading">Loading messages...</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>✅ Backend: http://localhost:5001 | Frontend: http://localhost:3001</p>
+            <p>Last updated: <span id="timestamp">--:--:--</span></p>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5001/api';
+
+        async function loadOrders() {
+            const container = document.getElementById('orders-container');
+            container.innerHTML = '<div class="loading">Loading...</div>';
+            try {
+                const response = await fetch(`${API_URL}/orders`);
+                const orders = await response.json();
+                
+                if (orders.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📭</div>No orders yet</div>';
+                    return;
+                }
+
+                let html = `<div class="stat-box"><div class="number">${orders.length}</div><div class="label">Total Orders</div></div>`;
+                
+                orders.forEach(order => {
+                    const statusClass = `status-${order.status.toLowerCase()}`;
+                    html += `
+                        <div class="item">
+                            <div class="item-header">
+                                <div class="item-title">${order.id}</div>
+                                <span class="item-status ${statusClass}">${order.status}</span>
+                            </div>
+                            <div class="item-detail"><strong>Customer:</strong> ${order.customerName} (${order.customerPhone})</div>
+                            <div class="item-detail"><strong>Items:</strong> ${order.items.length} items</div>
+                            <div class="item-detail"><strong>Total:</strong> ₹${order.totalAmount.toFixed(2)}</div>
+                            <div class="item-detail"><strong>Created:</strong> ${new Date(order.createdAt).toLocaleString()}</div>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+            } catch (error) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">❌</div>Error loading orders: ${error.message}</div>`;
+            }
+        }
+
+        async function loadUsers() {
+            const container = document.getElementById('users-container');
+            container.innerHTML = '<div class="loading">Loading...</div>';
+            try {
+                const response = await fetch(`${API_URL}/users`);
+                const users = await response.json();
+                
+                if (users.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">👤</div>No users yet</div>';
+                    return;
+                }
+
+                let html = `<div class="stat-box"><div class="number">${users.length}</div><div class="label">Total Users</div></div>`;
+                
+                users.forEach(user => {
+                    const isOwner = user.phone === '9999999999' ? '👨‍💼 Owner' : '👤 Customer';
+                    html += `
+                        <div class="item">
+                            <div class="item-header">
+                                <div class="item-title">${user.name}</div>
+                                <span class="status-badge badge-online">${isOwner}</span>
+                            </div>
+                            <div class="item-detail"><strong>Phone:</strong> ${user.phone}</div>
+                            <div class="item-detail"><strong>Joined:</strong> ${new Date(user.createdAt).toLocaleString()}</div>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+            } catch (error) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">❌</div>Error loading users: ${error.message}</div>`;
+            }
+        }
+
+        async function loadChats() {
+            const container = document.getElementById('chats-container');
+            container.innerHTML = '<div class="loading">Loading...</div>';
+            try {
+                const response = await fetch(`${API_URL}/chats`);
+                const chats = await response.json();
+                
+                if (chats.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">💬</div>No messages yet</div>';
+                    return;
+                }
+
+                let html = `<div class="stat-box"><div class="number">${chats.length}</div><div class="label">Total Messages</div></div>`;
+                
+                // Show last 10 messages
+                chats.slice(-10).reverse().forEach(chat => {
+                    const senderName = chat.sender === 'SYSTEM' ? '🤖 SYSTEM' : `💬 ${chat.sender}`;
+                    html += `
+                        <div class="item">
+                            <div class="item-header">
+                                <div class="item-title">${senderName}</div>
+                            </div>
+                            <div class="item-detail"><strong>Order:</strong> ${chat.orderId}</div>
+                            <div class="item-detail"><strong>Message:</strong> ${chat.text.substring(0, 100)}${chat.text.length > 100 ? '...' : ''}</div>
+                            <div class="item-detail"><strong>Time:</strong> ${new Date(chat.timestamp).toLocaleString()}</div>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+            } catch (error) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">❌</div>Error loading messages: ${error.message}</div>`;
+            }
+        }
+
+        function updateTimestamp() {
+            document.getElementById('timestamp').textContent = new Date().toLocaleTimeString();
+        }
+
+        // Load all data on page load
+        window.addEventListener('load', () => {
+            loadOrders();
+            loadUsers();
+            loadChats();
+            updateTimestamp();
+            
+            // Auto-refresh every 5 seconds
+            setInterval(() => {
+                loadOrders();
+                loadUsers();
+                loadChats();
+                updateTimestamp();
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
